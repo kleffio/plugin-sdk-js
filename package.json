@@ -8,9 +8,6 @@
     "type": "git",
     "url": "https://github.com/kleffio/plugin-sdk-js.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "exports": {
     ".": "./src/index.ts"
   },

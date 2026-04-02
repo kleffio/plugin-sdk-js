@@ -7,12 +7,39 @@ import type { ComponentType } from "react";
  * Plugins register components into these slots.
  */
 export type SlotName =
-  | "navbar.item"      // sidebar nav link
-  | "page"             // full page rendered at /p/<path>
-  | "dashboard.widget" // widget on the dashboard
-  | "settings.section" // section appended to the settings page
-  | "topbar.right"     // element in the top bar (right side)
-  | "global.provider"  // React provider wrapping the entire app
+  | "navbar.item"        // sidebar nav link
+  | "page"               // full page rendered at /<path>
+  | "dashboard.top"          // above dashboard content
+  | "dashboard.header"       // title + subtitle block — replaces default if provided
+  | "dashboard.metrics"      // the 4 metric cards — replaces default if provided
+  | "dashboard.widget"       // injection: widget between metrics and tabs
+  | "dashboard.servers-tab"  // the servers tab content — replaces default if provided
+  | "dashboard.activity-tab" // the activity tab content — replaces default if provided
+  | "dashboard.bottom"       // below dashboard content
+  | "servers.top"            // above servers content
+  | "servers.header"         // title + new server button — replaces default if provided
+  | "servers.list"           // the server card grid — replaces default if provided
+  | "servers.bottom"         // below servers content
+  | "billing.top"            // above billing content
+  | "billing.header"         // title + subtitle block — replaces default if provided
+  | "billing.plan"           // the current plan card — replaces default if provided
+  | "billing.invoices"       // the invoice table — replaces default if provided
+  | "billing.bottom"         // below billing content
+  | "settings.top"           // above settings content
+  | "settings.header"        // title + subtitle block — replaces default if provided
+  | "settings.profile"       // the profile card — replaces default if provided
+  | "settings.org"           // the organization card — replaces default if provided
+  | "settings.section"       // injection: section between org card and danger zone
+  | "settings.bottom"        // below settings content
+  | "admin.top"              // above admin content
+  | "admin.header"           // title + subtitle block — replaces default if provided
+  | "admin.metrics"          // the 3 metric cards — replaces default if provided
+  | "admin.cards"            // grid wrapper containing users + orgs cards — replaces default if provided
+  | "admin.users"            // the users card — replaces default if provided
+  | "admin.orgs"             // the organizations card — replaces default if provided
+  | "admin.bottom"           // below admin content
+  | "topbar.right"       // element in the top bar (right side)
+  | "global.provider"    // React provider wrapping the entire app
   | (string & {}); // extensible — allow custom slot names
 
 export interface SlotRegistration {
@@ -32,7 +59,7 @@ export interface SlotRegistration {
    *   label: string, icon: string (lucide icon name), href: string
    *
    * For "page" slots, recognised keys:
-   *   path: string  (e.g. "/components" → served at /p/components)
+   *   path: string  (e.g. "/components" → served at /components)
    */
   props?: Record<string, unknown>;
 }
