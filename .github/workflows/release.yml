@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
 
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +21,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://npm.pkg.github.com
           cache: pnpm
 
       - name: Install dependencies
@@ -33,35 +31,6 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-
-      - name: Prepare package for publish
-        run: |
-          node -e "
-          const fs = require('fs');
-          const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-          pkg.version = '${{ steps.version.outputs.version }}';
-          pkg.exports = {
-            '.': {
-              import: './dist/index.mjs',
-              require: './dist/index.cjs',
-              types: './dist/index.d.ts'
-            }
-          };
-          pkg.main = './dist/index.cjs';
-          pkg.module = './dist/index.mjs';
-          pkg.types = './dist/index.d.ts';
-          pkg.files = ['dist'];
-          fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
-          "
-
-      - name: Publish to GitHub Packages
-        run: pnpm publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
