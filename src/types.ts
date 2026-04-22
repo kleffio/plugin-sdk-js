@@ -38,6 +38,7 @@ export type SlotName =
   | "admin.users"            // the users card — replaces default if provided
   | "admin.orgs"             // the organizations card — replaces default if provided
   | "admin.bottom"           // below admin content
+  | "monitoring.charts"      // time-series charts injected below the metric cards
   | "topbar.right"       // element in the top bar (right side)
   | "global.provider"    // React provider wrapping the entire app
   | (string & {}); // extensible — allow custom slot names
