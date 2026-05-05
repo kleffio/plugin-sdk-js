@@ -63,6 +63,26 @@ export interface SlotRegistration {
    *   path: string  (e.g. "/components" → served at /components)
    */
   props?: Record<string, unknown>;
+  /**
+   * Canonical chart IDs this registration provides (e.g. ["workload.cpu", "workload.memory"]).
+   * Used by monitoring.charts slots for deduplication — if a higher-priority plugin already
+   * claimed an ID, lower-priority plugins providing the same ID are skipped.
+   */
+  provides?: string[];
+  /**
+   * IDs this registration can replace from lower-priority plugins.
+   * At render time the slot system intersects this list with IDs actually registered
+   * by other plugins; the matched IDs are passed to the component as `capturedProvides`
+   * and are claimed so the original registrations are skipped.
+   * If no IDs match (e.g. no other monitoring plugin is installed) this registration
+   * is omitted entirely.
+   */
+  capturesProviding?: string[];
+  /**
+   * Display group label shown as a section header when multiple plugins render
+   * into the same slot (e.g. "Grafana", "VictoriaMetrics").
+   */
+  group?: string;
 }
 
 // ─── Plugin Manifest ─────────────────────────────────────────────────────────
